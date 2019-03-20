@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.alless.commonlib.R;
+
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -19,11 +21,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 是否沉浸状态栏
      **/
-    private boolean isSetStatusBar = true;
+    private boolean isSetStatusBar = false;
     /**
      * 是否允许全屏
      **/
-    private boolean mAllowFullScreen = true;
+    private boolean mAllowFullScreen = false;
     /**
      * 是否允许旋转屏幕
      **/
@@ -99,21 +101,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         //5.0以上修改,设置状态栏颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setStatusBarColor(ResUtils.getColor(R.color.window_background_black));
+        //   getWindow().setStatusBarColor(ResUtils.getColor(R.color.window_background_black));
         }
     }
-    /**
-     * [防止快速点击]
-     *
-     * @return
-     */
-    private boolean fastClick() {
-        long lastClick = 0;
-        if (System.currentTimeMillis() - lastClick <= 1000) {
-            return false;
-        }
-        lastClick = System.currentTimeMillis();
-        return true;
-    }
+
+
 
 }

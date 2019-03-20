@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TabViewAttrs">
+        <attr name="tab_icon_normal" format="reference"/>
+        <attr name="tab_icon_checked" format="reference"/>
+        <attr name="tab_textcolor_normal" format="color"/>
+        <attr name="tab_textcolor_checked" format="color"/>
+        <attr name="tab_text" format="string"/>
+        <attr name="tab_checked" format="boolean"/>
+    </declare-styleable>
+</resources>

@@ -1,9 +1,10 @@
-package com.alless.foundationdemo;
+package com.alless.foundationdemo.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.alless.commonlib.base.BaseActivity;
+import com.alless.foundationdemo.R;
 
 /**
  * Created by chengjie on 2019/3/19
