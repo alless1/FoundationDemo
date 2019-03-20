@@ -33,4 +33,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     api 'org.greenrobot:eventbus:3.0.0'
+    api 'com.squareup.okhttp3:okhttp:3.9.1'
+    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    api 'com.google.code.gson:gson:2.8.5'
 }
