@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.alless.commonlib.R;
+import com.alless.commonlib.utils.EventU;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         if (isUserEvent()) {
-            EventBus.getDefault().register(this);
+            EventU.register(this);
         }
         setContentView(getLayoutId());
     }
@@ -83,7 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (isUserEvent()) {
-            EventBus.getDefault().unregister(this);
+            EventU.unregister(this);
         }
     }
 

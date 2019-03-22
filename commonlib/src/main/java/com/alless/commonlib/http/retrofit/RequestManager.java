@@ -1,18 +1,33 @@
 package com.alless.commonlib.http.retrofit;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+import okhttp3.CacheControl;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.internal.http2.ErrorCode;
+import okio.Buffer;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Source;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -24,6 +39,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RequestManager {
     private static RequestManager sRequestManager;
     private static IRetrofitService sIRetrofitService;
+    private static int CONNECT_TIMEOUT = 15;
 
     private RequestManager(){}
     static {
@@ -34,7 +50,7 @@ public class RequestManager {
         sRequestManager = new RequestManager();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .retryOnConnectionFailure(true)
-                .connectTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .hostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(String hostname, SSLSession session) {
@@ -84,5 +100,140 @@ public class RequestManager {
         RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), descriptionString);
         Call<String> call = sIRetrofitService.doUploadFile(url, description, body);
         call.enqueue(callBack);
+    }
+
+    /**
+     * okHttp的方式下载文件
+     * @param url
+     * @param saveFilePath
+     */
+    public static void downloadFile(String url, final String saveFilePath){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .header("Cache-Control", "no-cache")
+                .cacheControl(CacheControl.FORCE_NETWORK)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, Response response) throws IOException {
+                if (response.code() != 200 || response.body() == null) {
+                    //error
+                    return;
+                }
+                InputStream is = null;
+                FileOutputStream fos = null;
+                try {
+                    is = response.body().byteStream();
+                    int contentLength = (int) response.body().contentLength();
+                    File file = new File(saveFilePath);
+                    if (file.exists())
+                        file.delete();
+                    fos = new FileOutputStream(file);
+                    byte[] buffer = new byte[10*1024];
+                    int len = -1;
+                    int lengthProgress = 0;
+                    while ((len = is.read(buffer)) != -1) {
+                        fos.write(buffer, 0, len);
+                        //lengthProgress += len;
+                        //Log.e(TAG, "onResponse: lengthProgress =" + lengthProgress);
+                    }
+                    fos.close();
+                    is.close();
+                } catch (Exception e) {
+                    try {
+                        if (is != null)
+                            is.close();
+                        if (fos != null)
+                            fos.close();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
+
+            }
+        });
+    }
+    private static boolean isSecondTime = false;
+    private static final MediaType MEDIA_OBJECT_STREAM = MediaType.parse("application/octet-stream");
+    public static void uploadFile(String url,String uploadFilePath){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .build();
+        File file = new File(uploadFilePath);
+        if (!file.exists()) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0以下 writeTo会调用两次
+            isSecondTime = true;
+        } else {
+            isSecondTime = false;
+        }
+
+        RequestBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(), createProgressRequestBody(MEDIA_OBJECT_STREAM, file))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Cache-Control", "no-cache")
+                .cacheControl(CacheControl.FORCE_NETWORK)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String string = response.body().string();
+                    //successCallBack((T) string, callBack);
+                }
+            }
+        });
+    }
+    private static RequestBody createProgressRequestBody(final MediaType contentType, final File file) {
+        return new RequestBody() {
+
+
+            @Override
+            public MediaType contentType() {
+                return contentType;
+            }
+
+            @Override
+            public long contentLength() {
+                return file.length();
+            }
+
+            @Override
+            public void writeTo(BufferedSink sink) throws IOException {
+
+                Source source;
+                source = Okio.source(file);
+                Buffer buf = new Buffer();
+                int remaining = (int) contentLength();
+                int current = 0;
+                long read = 0;
+                while ((read = source.read(buf, 2048)) != -1) {
+                    sink.write(buf, read);
+                    current += read;
+                }
+            }
+        };
     }
 }
