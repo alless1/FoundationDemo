@@ -1,7 +1,10 @@
 package com.alless.commonlib.utils;
 
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.alless.commonlib.base.BaseApplication;
 
 /**
  * Created by chengjie on 2019/3/19
@@ -16,7 +19,7 @@ public class LogU {
     private static int ERROR = 32;
     private static int TEST = 64;
     private static int LOG_TYPE = SYSTEM | VERBOSE | DEBUG | INFO | WARN | ERROR | TEST;
-    private static String TAG_DEFAULT = "jie";
+    private static String TAG_DEFAULT = BaseApplication.getInstance().getPackageName();
 
 
     public static void i(String tag, String message) {

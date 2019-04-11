@@ -1,15 +1,20 @@
 package com.alless.commonlib.base;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.alless.commonlib.R;
 import com.alless.commonlib.utils.EventU;
+import com.alless.commonlib.utils.ToastU;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,6 +36,8 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 是否允许旋转屏幕
      **/
     private boolean isAllowScreenRotate = false;
+
+    private ProgressDialog loadingDialog = null;
 
 
     @Override
@@ -102,10 +109,42 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         //5.0以上修改,设置状态栏颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        //   getWindow().setStatusBarColor(ResUtils.getColor(R.color.window_background_black));
+            //   getWindow().setStatusBarColor(ResUtils.getColor(R.color.window_background_black));
         }
     }
 
+    /**
+     * 显示进度框
+     */
+    public void showLoadingDialog() {
+        if (isFinishing())
+            return;
+        if (loadingDialog == null) {
+            loadingDialog = new ProgressDialog(this);
+            loadingDialog.setCancelable(true);
+            loadingDialog.setCanceledOnTouchOutside(false);
+        }
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.show();
+        }
+    }
+
+    /**
+     * 取消进度框
+     */
+    public void hideLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    /**
+     * 显示吐司
+     * @param msg
+     */
+    public void showToast(String msg){
+        ToastU.show(this,msg);
+    }
 
 
 }
