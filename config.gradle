@@ -1,0 +1,21 @@
+ext {
+    android = [
+            compileSdkVersion: 28,
+            minSdkVersion    : 19,
+            targetSdkVersion : 28,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+    dependVersion = [
+            androidSupportSdkVersion: "28.0.0",
+    ]
+
+    supportDeps = [
+            supportv4  : "com.android.support:support-v4:$dependVersion.androidSupportSdkVersion",
+            appcompatv7: "com.android.support:appcompat-v7:$dependVersion.androidSupportSdkVersion",
+            annotations: "com.android.support:support-annotations:$dependVersion.androidSupportSdkVersion"
+    ]
+
+    supportLibs = supportDeps.values()
+
+}

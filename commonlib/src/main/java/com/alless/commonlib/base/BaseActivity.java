@@ -18,6 +18,7 @@ import com.alless.commonlib.utils.ToastU;
 
 import org.greenrobot.eventbus.EventBus;
 
+
 /**
  * Created by chengjie on 2019/3/19
  * Description:
@@ -69,6 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             EventU.register(this);
         }
         setContentView(getLayoutId());
+
     }
 
     protected void initLayout() {

@@ -8,35 +8,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alless.commonlib.utils.EventU;
+
 import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * Created by chengjie on 2019/3/20
  * Description:
  */
 public abstract class BaseFragment extends Fragment {
-
-    private View mContextView;
+    protected final String TAG = this.getClass().getSimpleName();
+    private View mRootView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (isUserEvent()) {
-            EventBus.getDefault().register(this);
+            EventU.register(this);
         }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContextView = inflater.inflate(getLayoutId(), container, false);
-        return mContextView;
+        mRootView = inflater.inflate(getLayoutId(), container, false);
+        return mRootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView(mContextView);
+        initView(mRootView);
         initData();
         initListener();
     }
@@ -57,7 +60,7 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (isUserEvent()) {
-            EventBus.getDefault().unregister(this);
+            EventU.unregister(this);
         }
     }
 }
