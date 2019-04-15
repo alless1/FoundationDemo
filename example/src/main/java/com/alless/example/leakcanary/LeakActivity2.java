@@ -3,9 +3,11 @@ package com.alless.example.leakcanary;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.alless.commonlib.base.BaseActivity;
+import com.alless.commonlib.utils.LogU;
 import com.alless.example.R;
 
 import butterknife.BindView;
@@ -28,14 +30,18 @@ public class LeakActivity2 extends BaseActivity {
     @Override
     protected void initView() {
         //TestManager instance = TestManager.getInstance(this);
-        FragmentManager fragmentManager = getSupportFragmentManager();
+/*        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.frame_layout,new LeakFragment());
-        transaction.commit();
+        transaction.commit();*/
     }
 
     @Override
     protected void initData() {
+        Log.e(TAG, "initData: ");
+
+        View view = null;
+        view.getWidth();
 
     }
 
@@ -43,7 +49,6 @@ public class LeakActivity2 extends BaseActivity {
     protected void initListener() {
 
     }
-
 
 
 }

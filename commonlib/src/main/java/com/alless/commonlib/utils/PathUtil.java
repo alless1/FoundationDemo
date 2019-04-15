@@ -15,9 +15,9 @@ public class PathUtil {
 
     /**
      * 对应系统设置 清除缓存
+     *
      * @param context
-     * @return
-     * /storage/emulated/0/Android/data/应用包名/cache
+     * @return /storage/emulated/0/Android/data/应用包名/cache
      */
     public static String getExternalCacheDir(Context context) {
         String cachePath = null;
@@ -30,22 +30,34 @@ public class PathUtil {
         return cachePath;
     }
 
+    public static String getExternalCacheDir(Context context, String fielderName) {
+        String cachePath = getExternalCacheDir(context);
+        File crash_log = new File(cachePath, fielderName);
+        crash_log.mkdirs();
+        return crash_log.getAbsolutePath();
+    }
+
     /**
-     *对应系统设置 清除数据
+     * 对应系统设置 清除数据
+     *
      * @param context
-     * @return
-     * /storage/emulated/0/Android/data/应用包名/files
+     * @return /storage/emulated/0/Android/data/应用包名/files
      */
     public static String getExternalFilesDir(Context context) {
+        return getExternalFilesDir(context,null);
+    }
+
+    public static String getExternalFilesDir(Context context, String fielderName) {
         String filesDir = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
-            filesDir = context.getExternalFilesDir(null).getPath();
+            filesDir = context.getExternalFilesDir(fielderName).getPath();
         } else {
             filesDir = context.getFilesDir().getPath();
         }
         return filesDir;
     }
+
 
     public static String createEmptyFile(Context context, int size) {
         String cacheDir = getExternalCacheDir(context);

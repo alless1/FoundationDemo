@@ -1,6 +1,11 @@
 package com.alless.commonlib.utils;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.util.Log;
+
+import com.alless.commonlib.base.BaseApplication;
+import com.alless.commonlib.manager.ActivityStackManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,9 +16,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+
 /**
  * Created by chengjie on 2018/8/1
- * Description:异常捕获 保存 工具类
+ * Description:崩溃捕获 本地保存 工具类
  * 示例：
  * File crash = getExternalFilesDir("crash_gsl");
  * UncaughtExceptionUtils.getInstance().init(crash.getAbsolutePath());
@@ -44,8 +51,8 @@ public class UncaughtExceptionUtils {
         mExceptionHandler = new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable ex) {
                 saveCatchInfo2File(ex, pathDir);
-                //restartApp();//终止app
-                android.os.Process.killProcess(android.os.Process.myPid());//关闭当前进程。
+                ActivityStackManager.getInstance().finishAllActivity();
+                android.os.Process.killProcess(android.os.Process.myPid());
             }
 
         };
@@ -73,8 +80,6 @@ public class UncaughtExceptionUtils {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             String time = formatter.format(new Date());
             String fileName = time + ".txt";
-            System.out.println("fileName:" + fileName);
-            //File filePath = new File(getExternalFilesDir("crash") + "/" + fileName);
             File filePath = new File(pathDir + File.separator + fileName);
             if (!filePath.exists()) {
                 filePath.createNewFile();
