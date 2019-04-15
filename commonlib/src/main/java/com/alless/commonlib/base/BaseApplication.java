@@ -29,7 +29,7 @@ public class BaseApplication extends Application {
 
         initActivityLife();
 
-        initCrashHandler();
+       // initCrashHandler();
 
         initLeakCanary();
     }

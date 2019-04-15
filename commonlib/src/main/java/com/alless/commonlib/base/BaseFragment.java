@@ -1,5 +1,7 @@
 package com.alless.commonlib.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -63,4 +65,5 @@ public abstract class BaseFragment extends Fragment {
             EventU.unregister(this);
         }
     }
+
 }

@@ -1,1 +1,1 @@
-include ':app', ':commonlib', ':example'
+include ':app', ':commonlib', ':example', ':umenglib'

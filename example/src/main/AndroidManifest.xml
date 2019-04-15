@@ -17,13 +17,16 @@
         </activity>
         <activity android:name=".mvp.MVPActivity" />
         <activity android:name=".leakcanary.LeakActivity">
+        </activity>
+        <activity android:name=".leakcanary.LeakActivity2" />
+        <activity android:name=".umeng.UMTestActivity2" />
+        <activity android:name=".umeng.UMTestActivity1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".leakcanary.LeakActivity2" />
     </application>
 
 </manifest>

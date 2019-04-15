@@ -69,7 +69,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (isUserEvent()) {
             EventU.register(this);
         }
-        setContentView(getLayoutId());
 
     }
 
@@ -148,5 +147,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         ToastU.show(this,msg);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.alless.commonlib.base.BaseApplication;
 import com.alless.commonlib.manager.ActivityStackManager;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,6 +52,7 @@ public class UncaughtExceptionUtils {
         mExceptionHandler = new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable ex) {
                 saveCatchInfo2File(ex, pathDir);
+                //MobclickAgent.reportError(BaseApplication.getInstance(),ex);
                 ActivityStackManager.getInstance().finishAllActivity();
                 android.os.Process.killProcess(android.os.Process.myPid());
             }
