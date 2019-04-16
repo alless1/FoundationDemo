@@ -49,6 +49,7 @@ public class UMTestActivity1 extends BaseActivity {
 
     }
 
+    int error = 10000;
 
     @OnClick({R.id.btn1, R.id.btn2})
     public void onViewClicked(View view) {
@@ -58,18 +59,17 @@ public class UMTestActivity1 extends BaseActivity {
                 String name = "ZhangSan";
                 String age = "23";
                 String gender = "man";
-                Map<String,Object> map = new HashMap<>();
-                map.put("name",name);
-                map.put("age",age);
-                map.put("gender",gender);
-                MobclickAgent.onEventObject(this,key1,map);
-                View aa = null;
-                aa.getWidth();
+                Map<String, Object> map = new HashMap<>();
+                map.put("error", error++);
+
+                MobclickAgent.onEventObject(this, key1, map);
+   /*             View aa = null;
+                aa.getWidth();*/
                 break;
             case R.id.btn2:
                 //跳转
-                MobclickAgent.onEvent(this,key2);
-                startActivity(new Intent(this,UMTestActivity2.class));
+                MobclickAgent.onEvent(this, key2);
+                startActivity(new Intent(this, UMTestActivity2.class));
                 break;
         }
     }

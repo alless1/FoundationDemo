@@ -1,4 +1,4 @@
-package com.alless.commonlib.manager;
+package com.alless.commonlib.utils;
 
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -46,7 +46,8 @@ public class ResUtils {
      * @return
      */
     public static int getColor(@ColorRes int id) {
-        return ContextCompat.getColor(BaseApplication.getInstance(), id);
+       // return ContextCompat.getColor(BaseApplication.getInstance(), id);
+        return BaseApplication.getInstance().getResources().getColor(id);
     }
 
     /**

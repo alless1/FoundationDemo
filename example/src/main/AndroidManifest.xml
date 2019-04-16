@@ -21,6 +21,9 @@
         <activity android:name=".leakcanary.LeakActivity2" />
         <activity android:name=".umeng.UMTestActivity2" />
         <activity android:name=".umeng.UMTestActivity1">
+
+        </activity>
+        <activity android:name=".title.TitleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
