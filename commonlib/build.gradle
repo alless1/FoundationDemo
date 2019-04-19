@@ -23,10 +23,15 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2') {
@@ -35,9 +40,9 @@ dependencies {
     /*支持库*/
     api rootProject.ext.supportLibs
     /*牛油刀 配合插件使用Android ButterKnife Zelezny*/
-/*    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'*/
-
+    /*view依赖注入*/
+    api 'com.jakewharton:butterknife:8.8.1'
+    api 'com.jakewharton:butterknife-compiler:8.8.1'
     /*事件通知*/
     api 'org.greenrobot:eventbus:3.0.0'
     /*网络请求*/
@@ -46,13 +51,12 @@ dependencies {
     api 'com.squareup.retrofit2:converter-scalars:2.1.0'
     /*json转换*/
     api 'com.google.code.gson:gson:2.8.5'
-
     /*leakcanary内存泄露检测*/
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
-
     api project(':umenglib')
-
+    /*RxJava*/
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
 }

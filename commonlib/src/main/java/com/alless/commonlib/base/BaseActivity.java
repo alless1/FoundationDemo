@@ -18,6 +18,9 @@ import com.alless.commonlib.utils.ToastU;
 
 import org.greenrobot.eventbus.EventBus;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 /**
  * Created by chengjie on 2019/3/19
@@ -39,6 +42,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private boolean isAllowScreenRotate = false;
 
     private ProgressDialog loadingDialog = null;
+
+    private Unbinder mUnbinder;
 
 
     @Override
@@ -78,7 +83,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayoutId();
 
-    protected abstract void initView();
+    protected void initView(){
+        mUnbinder = ButterKnife.bind(this);
+    }
 
     protected abstract void initData();
 
@@ -93,6 +100,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         if (isUserEvent()) {
             EventU.unregister(this);
+        }
+        if(mUnbinder!=null){
+            mUnbinder.unbind();
         }
     }
 

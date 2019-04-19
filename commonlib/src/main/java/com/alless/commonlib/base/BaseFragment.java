@@ -14,6 +14,9 @@ import com.alless.commonlib.utils.EventU;
 
 import org.greenrobot.eventbus.EventBus;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 /**
  * Created by chengjie on 2019/3/20
@@ -22,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 public abstract class BaseFragment extends Fragment {
     protected final String TAG = this.getClass().getSimpleName();
     private View mRootView;
+    private Unbinder mUnbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +50,12 @@ public abstract class BaseFragment extends Fragment {
         initListener();
     }
 
+
     protected abstract int getLayoutId();
 
-    protected abstract void initView(View contextView);
+    protected  void initView(View contextView){
+        mUnbinder = ButterKnife.bind(this, contextView);
+    }
 
     protected abstract void initData();
 
@@ -63,6 +70,9 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         if (isUserEvent()) {
             EventU.unregister(this);
+        }
+        if(mUnbinder!=null){
+            mUnbinder.unbind();
         }
     }
 

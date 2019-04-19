@@ -22,7 +22,7 @@ import com.alless.commonlib.utils.UnitUtils;
 
 /**
  * Created by chengjie on 2019/4/16
- * Description:简单标题，只支持左侧
+ * Description:简单标题
  */
 public class SimpleTitleView extends RelativeLayout {
 

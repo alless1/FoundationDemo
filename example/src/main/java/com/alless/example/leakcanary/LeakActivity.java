@@ -22,7 +22,6 @@ public class LeakActivity extends BaseActivity {
 
     @BindView(R.id.btn1)
     Button btn1;
-    private Unbinder mUnbinder;
 
     @Override
     protected int getLayoutId() {
@@ -31,7 +30,6 @@ public class LeakActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mUnbinder = ButterKnife.bind(this);
     }
 
     @Override
@@ -52,7 +50,5 @@ public class LeakActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mUnbinder!=null)
-            mUnbinder.unbind();
     }
 }

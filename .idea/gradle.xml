@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/commonlib" />
             <option value="$PROJECT_DIR$/example" />
+            <option value="$PROJECT_DIR$/kotlindemo" />
             <option value="$PROJECT_DIR$/umenglib" />
           </set>
         </option>
