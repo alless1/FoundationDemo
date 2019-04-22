@@ -3,6 +3,7 @@ package com.alless.kotlindemo
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -13,7 +14,18 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         //assertEquals(4, 2 + 2)
-        println(mix(Color2.RED, Color2.RED))
+        //println(mix(Color2.RED, Color2.RED))
+
+
+/*        val list = listOf<Int>(3, 2, 5, 8, 6)
+        println(joinToString(list,";","{","}"))
+        println(joinToString(list,separator = ";",prefix = "{",postfix = "}"))
+        println(joinToString(list))
+        println(joinToString(list,postfix = "end"))*/
+
+        println("Kotlin".lastChar())
+        println("Kotlin".lastChar)
+
     }
 
     fun mix(c1: Color2, c2: Color2) =
@@ -41,4 +53,23 @@ class ExampleUnitTest {
                 is Sum -> eval2(e.left) + eval2(e.right)
                 else -> throw  IllegalAccessException("Unknown exception")
             }
+
+    val onToTen = 1..10;
+
+    val binaryReps = TreeMap<Char, String>()
+    fun test2() {
+/*        for (i in 1..100) {
+
+        }*/
+        for (c in 'A'..'F') {
+            Integer.toBinaryString(c.toInt())
+        }
+        val (key,value) = 1.to("one")
+        val (number,name) = 1 to "one"
+    }
+
+   infix fun Any.to(other: Any) = Pair(this,other)
+
+
+
 }
