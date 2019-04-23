@@ -1,5 +1,6 @@
 package com.alless.kotlindemo
 
+import com.alless.test.Student
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -64,12 +65,26 @@ class ExampleUnitTest {
         for (c in 'A'..'F') {
             Integer.toBinaryString(c.toInt())
         }
-        val (key,value) = 1.to("one")
-        val (number,name) = 1 to "one"
+        val (key, value) = 1.to("one")
+        val (number, name) = 1 to "one"
     }
 
-   infix fun Any.to(other: Any) = Pair(this,other)
-
+    infix fun Any.to(other: Any) = Pair(this, other)
 
 
 }
+
+//抽象类默认是open的
+abstract class Animated {
+    //抽象方法默认是open的
+    abstract fun animate()
+
+    open fun stopAnimating() {
+
+    }
+
+    fun animateTwice() {
+
+    }
+}
+
